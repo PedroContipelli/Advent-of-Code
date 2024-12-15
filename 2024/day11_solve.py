@@ -38,3 +38,25 @@ def total_count(stone, n_blinks):
         return total_count(stone * 2024, n_blinks - 1)
 
 print("Part 2 answer:", sum([total_count(int(stone), 75) for stone in input]))
+
+# No libraries version
+memo = {}
+
+def total_count_dp(stone, n_blinks):
+    params = (stone, n_blinks)
+    if n_blinks == 0:
+        memo[params] = 1
+    elif params in memo:
+        pass
+    elif stone == 0:
+        memo[params] = total_count_dp(1, n_blinks - 1)
+    elif (num_digits := len(str(stone))) % 2 == 0:
+        first_half = int(str(stone)[:num_digits//2])
+        second_half = int(str(stone)[num_digits//2:])
+        memo[params] = total_count_dp(first_half, n_blinks - 1) + total_count_dp(second_half, n_blinks - 1)
+    else:
+        memo[params] = total_count_dp(stone * 2024, n_blinks - 1)
+
+    return memo[params]
+
+print("Part 2 answer:", sum([total_count_dp(int(stone), 75) for stone in input]))
