@@ -64,7 +64,7 @@ grid = copy.deepcopy(grid_copy)
 # Ex:  A
 #      AA
 # We actually do want to count the top edge for the last A, even though there *is* an A to its left.
-# So you also need to check the (top-left) diagonal plant. Again, rotating the idea 90 degress for other sides 
+# So you also need to check the (top-left) diagonal plant. Again, rotating the idea 90 degress for other sides
 
 def sides(row, col):
     plant_sides = 0
