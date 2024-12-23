@@ -59,12 +59,12 @@ grid = copy.deepcopy(grid_copy)
 # We can do this by *only* counting edges for corner plants
 # Ex: only count the top edge of the first A in AAAA
 # (By always checking the plant to your left, to see if this top side has already been counted)
-# You can rotate this strategy by 90 degress for every other direction too
+# You can rotate this strategy by 90 degrees for every other direction too
 # Lastly, add an extra check for the special "L-shape" concavity corner case
 # Ex:  A
 #      AA
 # We actually do want to count the top edge for the last A, even though there *is* an A to its left.
-# So you also need to check the (top-left) diagonal plant. Again, rotating the idea 90 degress for other sides
+# So you also need to check the (top-left) diagonal plant. Again, rotating the idea 90 degrees for other sides
 
 def sides(row, col):
     plant_sides = 0
