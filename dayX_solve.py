@@ -1,5 +1,5 @@
 import sys
-input = "input" if sys.argv[-1] != "--test" else "testcase"
+input = "testcase" if sys.argv[-1] == "--test" else "input"
 input_file = open(f"dayX_{input}.txt", "r")
 
 lines = [line.strip() for line in input_file.readlines()]
