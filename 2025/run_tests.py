@@ -1,6 +1,5 @@
-import subprocess
-import os
-file_prefix = "dayX"
+import sys, subprocess, os
+file_prefix = sys.argv[1]
 input_file = open(f"{file_prefix}_tests.txt", "r")
 output_file = open(f"{file_prefix}_testcase.txt", "w")
 
@@ -47,9 +46,10 @@ os.remove(f"{file_prefix}_testcase.txt")
 for part, cases in test_out.items():
   print(f"\n--- PART {part} ---")
   for num, case in cases.items():
-    print(f"Case #{num}:", end=" ")
-    print("✅" if case["expected"] == case["mine"] else f"❌ (Expected: {case["expected"]} --- Got: {case["mine"]})")
-    if case["debug"]:
-      print(case["debug"])
+    if case["expected"] and "mine" in case:
+      print(f"Case #{num}:", end=" ")
+      print("✅" if case["expected"] == case["mine"] else f"❌ (Expected: {case["expected"]} --- Got: {case["mine"]})")
+      if case["debug"]:
+        print(case["debug"])
 
 print()
