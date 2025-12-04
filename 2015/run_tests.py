@@ -1,6 +1,6 @@
 import subprocess
 import os
-file_prefix = "dayX"
+file_prefix = "day1"
 input_file = open(f"{file_prefix}_tests.txt", "r")
 output_file = open(f"{file_prefix}_testcase.txt", "w")
 
