@@ -1,9 +1,10 @@
-import sys
+import sys, os
 input = "testcase" if sys.argv[-1] == "--test" else "input"
-input_file = open(f"dayX_{input}.txt", "r")
+day = os.path.basename(__file__).split("y")[1].split("_")[0]
+input_file = open(f"day{day}_{input}.txt")
 
-lines = [line.strip() for line in input_file.readlines()]
-grid = [list(line.strip()) for line in input_file.readlines()]
+lines = [line.strip() for line in input_file]
+grid = [list(line.strip()) for line in input_file]
 
 
 
