@@ -33,17 +33,14 @@ print("Part 1 Answer:", count)
 # I only deconflicted neighboring ranges.
 count = 0
 ranges = sorted(ranges, key=lambda x: (x[1], x[0]))
-print(ranges)
 
 for i in range(len(ranges)):
   start, end = ranges[i]
   count += (end - start)
-  print(count)
 
   if i < len(ranges) - 1:
     nextStart, nextEnd = ranges[i+1]
     if nextStart < end:
       count -= min(end, nextEnd) - max(start, nextStart)
-      print(count)
 
 print("Part 2 Answer:", count)
