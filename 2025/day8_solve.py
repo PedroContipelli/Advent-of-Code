@@ -8,17 +8,17 @@ total_connections = 10 if sys.argv[-1] == "--test" else 1000
 lines = [line.strip() for line in input_file]
 total_boxes = len(lines)
 
-ufds = [i for i in range(total_boxes)]
+parent = [i for i in range(total_boxes)]
 
-def find(x):
-  if ufds[x] == x:
+def root(x):
+  if parent[x] == x:
     return x
   
-  ufds[x] = find(ufds[x])
-  return ufds[x]
+  parent[x] = root(parent[x])
+  return parent[x]
 
 def union(x, y):
-  ufds[find(y)] = find(x)
+  parent[root(x)] = root(y)
 
 boxes = {}
 for i in range(total_boxes):
@@ -42,7 +42,7 @@ for connection in range(total_connections):
 
 sizes = {}
 for i in range(total_boxes):
-  circuit = find(i)
+  circuit = root(i)
   sizes[circuit] = sizes.get(circuit, 0) + 1
 
 totals = sorted(sizes.values())
@@ -50,7 +50,7 @@ print("Part 1 Answer:", totals[-1]*totals[-2]*totals[-3])
 
 def all_connected():
   for i in range(total_boxes):
-    if find(i) != find(0):
+    if root(i) != root(0):
       return False
   return True
 
