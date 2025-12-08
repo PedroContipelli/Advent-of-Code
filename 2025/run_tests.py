@@ -21,6 +21,9 @@ for line in input_file:
       capture_output=True,
       text=True
     )
+    if result.stderr:
+      print("\n=============\nPROGRAM ERROR\n=============\n", result.stderr)
+      break
     output_lines = result.stdout.splitlines()
     # My answers
     part = 1

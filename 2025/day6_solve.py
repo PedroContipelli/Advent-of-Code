@@ -4,37 +4,38 @@ day = os.path.basename(__file__).split("y")[1].split("_")[0]
 input_file = open(f"day{day}_{input}.txt")
 
 lines = [line.strip() for line in input_file]
-rows = []
+num_lines = len(lines)
+num_grid = []
 
-for row_num in range(4):
-  nums = [int(x) for x in lines[row_num].split()]
-  rows.append(nums)
+for row_num in range(num_lines - 1):
+  num_grid.append([int(x) for x in lines[row_num].split()])
 
 total = 0
-for i, op in enumerate(lines[4].split()):
+operations = lines[-1].split()
+
+for col, op in enumerate(operations):
   if op == "*":
-    total += rows[0][i] * rows[1][i] * rows[2][i] * rows[3][i]
+    product = 1
+    for row in range(num_lines - 1):
+      product *= num_grid[row][col]
+    total += product
   elif op == "+":
-    total += rows[0][i] + rows[1][i] + rows[2][i] + rows[3][i]
+    for row in range(num_lines - 1):
+      total += num_grid[row][col]
 
 print("Part 1 Answer:", total)
 
 input_file = open(f"day{day}_{input}.txt")
-grid = [list(line.strip()) for line in input_file]
-rows = []
+char_grid = [list(line.strip("\n")) for line in input_file]
+num_grid = []
 
-for c in range(len(grid[0])):
-  divider = True
-  for r in range(5):
-    if grid[r][c] != ' ':
-      divider = False
-      break
-  if divider:
-    for r in range(4):
-      grid[r][c] = '|'
+for col in range(len(char_grid[0])-1):
+  if char_grid[-1][col+1] in "*+":
+    for row in range(num_lines-1):
+      char_grid[row][col] = '|'
 
-for row_num in range(4):
-  rows.append("".join(grid[row_num]).split("|"))
+for row_num in range(num_lines-1):
+  num_grid.append("".join(char_grid[row_num]).split("|"))
 
 def cephalopod_math(nums):
   col_nums = []
@@ -53,8 +54,8 @@ def cephalopod_math(nums):
   return [int(x) for x in col_nums]
 
 total = 0
-for i, op in enumerate(lines[4].split()):
-  human_nums = [rows[0][i], rows[1][i], rows[2][i], rows[3][i]]
+for col, op in enumerate(lines[num_lines-1].split()):
+  human_nums = [num_grid[row][col] for row in range(num_lines-1)]
   if op == "*":
     total += math.prod(cephalopod_math(human_nums))
   elif op == "+":
