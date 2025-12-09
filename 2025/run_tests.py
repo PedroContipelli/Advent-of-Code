@@ -34,7 +34,7 @@ for line in input_file:
       else:
         test_out[part][case]["debug"] += output_line + "\n"
   # Next test case
-  elif line.startswith("----------"):
+  elif line == "----------\n":
     output_file = open(f"{file_prefix}_testcase.txt", "w")
     case += 1
   # Write test case
