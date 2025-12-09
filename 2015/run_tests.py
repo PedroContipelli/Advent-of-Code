@@ -6,7 +6,7 @@ output_file = open(f"{file_prefix}_testcase.txt", "w")
 test_out = {1: {}, 2: {}}
 case = 0
 
-for line in input_file.readlines():
+for line in input_file:
   # Evaluate
   if line.startswith("="):
     # Expected
@@ -21,6 +21,9 @@ for line in input_file.readlines():
       capture_output=True,
       text=True
     )
+    if result.stderr:
+      print("\n=============\nPROGRAM ERROR\n=============\n", result.stderr)
+      break
     output_lines = result.stdout.splitlines()
     # My answers
     part = 1
@@ -31,7 +34,7 @@ for line in input_file.readlines():
       else:
         test_out[part][case]["debug"] += output_line + "\n"
   # Next test case
-  elif line.startswith("\n"):
+  elif line == "----------\n":
     output_file = open(f"{file_prefix}_testcase.txt", "w")
     case += 1
   # Write test case
