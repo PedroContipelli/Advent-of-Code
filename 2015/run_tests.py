@@ -52,7 +52,8 @@ for part, cases in test_out.items():
     if case["expected"] and "mine" in case:
       print(f"Case #{num}:", end=" ")
       print("✅" if case["expected"] == case["mine"] else f"❌ (Expected: {case["expected"]} --- Got: {case["mine"]})")
-      if case["debug"]:
-        print(case["debug"])
+    if case["debug"]:
+      print("DEBUG:")
+      print(case["debug"])
 
 print()
