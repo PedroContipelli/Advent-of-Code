@@ -35,42 +35,74 @@ def any_is_correct(press_list):
 
 total = 0
 
-for i, machine in enumerate(lines):
-  instructions = machine.split(" ")
-  expected_lights = [light == '#' for light in instructions[0][1:-1]]
-  buttons = []
-  for button in instructions[1:-1]:
-    buttons.append([int(wire) for wire in button[1:-1].split(",")])
+# for i, machine in enumerate(lines):
+#   instructions = machine.split(" ")
+#   expected_lights = [light == '#' for light in instructions[0][1:-1]]
+#   buttons = []
+#   for button in instructions[1:-1]:
+#     buttons.append([int(wire) for wire in button[1:-1].split(",")])
 
-  presses = [0 for _ in buttons]
-  all = [presses]
+#   presses = [0 for _ in buttons]
+#   all = [presses]
 
-  for num_presses in range(0, 10):
-    if any_is_correct(all):
-      total += num_presses
-      break
-    all = all_extra_press(all)
+#   for num_presses in range(0, 10):
+#     if any_is_correct(all):
+#       total += num_presses
+#       break
+#     all = all_extra_press(all)
 
 print("Part 1 Answer:", total)
 
-# PART 2 - W.I.P.
-# total = 0
+# Brute force is too slow :'(
+# W.I.P.
+buttons = []
+joltage = []
 
-# def upper_bound_presses(button):
-#   upper_bound = 999
-#   for wire in button:
-#     upper_bound = min(upper_bound, expected_joltage[wire])
-#   return upper_bound
+def max_presses(button):
+  return min([joltage[wire] for wire in button])
 
-# for i, machine in enumerate(lines):
-#   instructions = machine.split(" ")
-#   buttons = []
-#   for button in instructions[1:-1]:
-#     buttons.append([int(num) for num in button[1:-1].split(",")])
+def apply_presses(button, num_presses):
+  for wire in button:
+    joltage[wire] -= num_presses
 
-#   expected_joltage = [int(num) for num in instructions[-1][1:-1].split(",")]
+best = -1
 
-#   max_presses = [upper_bound_presses(button) for button in buttons]
-#   print(max_presses, "=", math.prod(max_presses))
+def solve(i, total_presses):
+  global best
+  
+  if i == len(buttons):
+    if all(j == 0 for j in joltage):
+      best = total_presses
+      print(best)
+      raise Exception
+    return
 
-# print("Part 2 Answer:", )
+  num_presses = max_presses(buttons[i])
+
+  while num_presses >= 0:
+    apply_presses(buttons[i], num_presses)
+    solve(i+1, total_presses+num_presses)
+    apply_presses(buttons[i], -num_presses)
+    num_presses -= 1
+    
+
+for i, machine in enumerate(lines):
+  instructions = machine.split(" ")
+
+  buttons = []
+  for button in instructions[1:-1]:
+    buttons.append([int(num) for num in button[1:-1].split(",")])
+
+  joltage = [int(num) for num in instructions[-1][1:-1].split(",")]
+
+  buttons.sort(key=lambda button: (len(button), max_presses(button)), reverse=True)
+
+  best = -1
+  try:
+    solve(0, 0)
+  except:
+    pass
+  assert best != -1
+  total += best
+
+print("Part 2 Answer:", total)
